@@ -3,6 +3,8 @@ package web
 //go:generate go-assets-builder --package=web --output=./templates-gen.go --strip-prefix="/templates/" --variable=Templates ../templates
 
 import (
+	"fmt"
+	"html"
 	"net/http"
 
 	"github.com/dimfeld/httptreemux"
@@ -28,9 +30,21 @@ type server struct {
 func (s *server) Handler() http.Handler {
 	router := httptreemux.New()
 
-	// ...
+	handle := func(method, path string, handler http.Handler) {
+		router.UsingContext().Handler(method, path,
+			csrfMiddleware(loggingMiddleware(headerMiddleware(handler))),
+		)
+	}
+
+	handle("GET", "/", s.indexHandler())
 
 	return router
+}
+
+func (s *server) indexHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+	})
 }
 
 var csrfMiddleware = func(next http.Handler) http.Handler {
