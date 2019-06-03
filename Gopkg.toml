@@ -19,3 +19,7 @@ required = ["github.com/jessevdk/go-assets"]
 [[constraint]]
   name = "github.com/jessevdk/go-assets"
   revision = "4f4301a06e153ff90e17793577ab6bf79f8dc5c5"
+
+[[constraint]]
+  name = "github.com/stretchr/testify"
+  version = "1.3.0"
