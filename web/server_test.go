@@ -43,3 +43,13 @@ func TestServer_Index(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Contains(t, respBody, `<h1>ダイアリー</h1>`)
 }
+
+func TestServer_Signup(t *testing.T) {
+	_, ts := newAppServer()
+	defer ts.Close()
+
+	resp, respBody := client.Get(ts.URL + "/signup").Do()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Contains(t, respBody, `<h1>ユーザー登録</h1>`)
+}
