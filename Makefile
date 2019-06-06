@@ -1,4 +1,5 @@
 BIN=server
+TEST_ARGS=''
 
 all: clean build
 
@@ -18,7 +19,7 @@ deps:
 	dep ensure -vendor-only
 
 test: build
-	DATABASE_DSN=$$DATABASE_DSN_TEST go test -v -p 1 ./...
+	DATABASE_DSN=$$DATABASE_DSN_TEST go test -v -p 1 ./... ${TEST_ARGS}
 
 clean:
 	rm -rf build */*-gen.go
