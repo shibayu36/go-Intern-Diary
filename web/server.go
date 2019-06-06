@@ -66,12 +66,23 @@ func (s *server) Handler() http.Handler {
 
 	handle("GET", "/", s.indexHandler())
 
+	// ユーザー登録・ログイン
+	handle("GET", "/signup", s.willSignupHandler())
+	// handle("POST", "/signup", s.signupHandler())
+
 	return router
 }
 
 func (s *server) indexHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		s.renderTemplate(w, r, "index.tmpl", nil)
+	})
+}
+
+// 登録ページ
+func (s *server) willSignupHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		s.renderTemplate(w, r, "signup.tmpl", nil)
 	})
 }
 
