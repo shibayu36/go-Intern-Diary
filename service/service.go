@@ -13,6 +13,8 @@ func init() {
 
 type DiaryApp interface {
 	Close() error
+
+	CreateNewUser(name string, passwordHash string) error
 }
 
 func NewApp(repo repository.Repository) DiaryApp {
