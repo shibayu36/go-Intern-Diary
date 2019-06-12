@@ -8,7 +8,7 @@ import (
 )
 
 type Repository interface {
-	// ...
+	CreateNewUser(name string, passwordHash string) error
 
 	Close() error
 }
