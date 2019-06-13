@@ -17,6 +17,7 @@ type DiaryApp interface {
 
 	CreateNewUser(name string, passwordHash string) error
 	FindUserByName(name string) (*model.User, error)
+	CreateNewToken(userID uint64, expiresAt time.Time) (string, error)
 }
 
 func NewApp(repo repository.Repository) DiaryApp {

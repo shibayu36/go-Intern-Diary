@@ -39,3 +39,14 @@ func (r *repository) FindUserByName(name string) (*model.User, error) {
 	}
 	return &user, nil
 }
+
+func (r *repository) CreateNewToken(userID uint64, token string, expiresAt time.Time) error {
+	now := time.Now()
+	_, err := r.db.Exec(
+		`INSERT INTO user_session
+			(user_id, token, expires_at, created_at, updated_at)
+			VALUES (?, ?, ?, ?, ?)`,
+		userID, token, expiresAt, now, now,
+	)
+	return err
+}

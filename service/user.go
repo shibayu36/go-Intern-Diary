@@ -1,7 +1,9 @@
 package service
 
 import (
+	"crypto/rand"
 	"errors"
+	"time"
 
 	"github.com/hatena/go-Intern-Diary/model"
 	"golang.org/x/crypto/bcrypt"
@@ -22,4 +24,26 @@ func (app *diaryApp) CreateNewUser(name string, password string) (err error) {
 // ユーザー名からユーザーを取得
 func (app *diaryApp) FindUserByName(name string) (*model.User, error) {
 	return app.repo.FindUserByName(name)
+}
+
+// ログイン用トークンの発行
+func (app *diaryApp) CreateNewToken(userID uint64, expiresAt time.Time) (string, error) {
+	token := generateToken()
+	err := app.repo.CreateNewToken(userID, token, expiresAt)
+	if err != nil {
+		return "", err
+	}
+	return token, nil
+}
+
+func generateToken() string {
+	table := "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_@"
+	l := len(table)
+	ret := make([]byte, 128)
+	src := make([]byte, 128)
+	rand.Read(src)
+	for i := 0; i < 128; i++ {
+		ret[i] = table[int(src[i])%l]
+	}
+	return string(ret)
 }
