@@ -3,6 +3,7 @@ package service
 import (
 	"errors"
 
+	"github.com/hatena/go-Intern-Diary/model"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -16,4 +17,9 @@ func (app *diaryApp) CreateNewUser(name string, password string) (err error) {
 		return err
 	}
 	return app.repo.CreateNewUser(name, string(passwordHash))
+}
+
+// ユーザー名からユーザーを取得
+func (app *diaryApp) FindUserByName(name string) (*model.User, error) {
+	return app.repo.FindUserByName(name)
 }

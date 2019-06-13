@@ -4,6 +4,7 @@ import (
 	"math/rand"
 	"time"
 
+	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/hatena/go-Intern-Diary/repository"
 )
 
@@ -15,6 +16,7 @@ type DiaryApp interface {
 	Close() error
 
 	CreateNewUser(name string, passwordHash string) error
+	FindUserByName(name string) (*model.User, error)
 }
 
 func NewApp(repo repository.Repository) DiaryApp {

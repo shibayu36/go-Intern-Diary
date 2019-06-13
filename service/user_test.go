@@ -14,4 +14,8 @@ func TestDiaryApp_CreateNewUser(t *testing.T) {
 	password := randomString() + randomString()
 	err := app.CreateNewUser(name, password)
 	assert.NoError(t, err)
+
+	user, err := app.FindUserByName(name)
+	assert.NoError(t, err)
+	assert.Equal(t, user.Name, name)
 }
