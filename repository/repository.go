@@ -4,11 +4,13 @@ import (
 	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/jmoiron/sqlx"
 )
 
 type Repository interface {
 	CreateNewUser(name string, passwordHash string) error
+	FindUserByName(name string) (*model.User, error)
 
 	Close() error
 }
