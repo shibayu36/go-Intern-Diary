@@ -1,9 +1,12 @@
 package web
 
 import (
+	"math/rand"
 	"net/http"
 	"net/http/httptest"
+	"strconv"
 	"testing"
+	"time"
 
 	"github.com/hatena/go-Intern-Diary/config"
 	"github.com/hatena/go-Intern-Diary/repository"
@@ -18,6 +21,10 @@ func init() {
 	csrfToken = func(r *http.Request) string {
 		return ""
 	}
+}
+
+func randomString() string {
+	return strconv.FormatInt(time.Now().Unix()^rand.Int63(), 16)
 }
 
 func newAppServer() (service.DiaryApp, *httptest.Server) {
@@ -52,4 +59,19 @@ func TestServer_Signup(t *testing.T) {
 
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Contains(t, respBody, `<h1>ユーザー登録</h1>`)
+
+	name, password := "test name "+randomString(), randomString()
+	resp, _ = client.Post(ts.URL+"/signup", map[string]string{
+		"name":     name,
+		"password": password,
+	}).Do()
+	location := resp.Header.Get("Location")
+	cookie := resp.Cookies()[0]
+
+	assert.Equal(t, http.StatusSeeOther, resp.StatusCode)
+	assert.Equal(t, "/", location)
+	assert.Equal(t, "DIARY_SESSION", cookie.Name)
+	assert.Regexp(t, "^[a-zA-Z0-9_@]{128}$", cookie.Value)
+
+	// TODO: 正しいname, passwordのユーザーが作成されたかを、ログイン処理が出来たら確認
 }
