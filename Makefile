@@ -16,7 +16,7 @@ setup:
 	command -v reflex >/dev/null || go get -u github.com/cespare/reflex
 
 deps:
-	dep ensure -vendor-only
+	dep ensure -vendor-only -v
 
 test: build
 	DATABASE_DSN=$$DATABASE_DSN_TEST go test -v -p 1 ./... ${TEST_ARGS}
