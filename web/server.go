@@ -70,6 +70,7 @@ func (s *server) Handler() http.Handler {
 	// ユーザー登録・ログイン
 	handle("GET", "/signup", s.willSignupHandler())
 	handle("POST", "/signup", s.signupHandler())
+	handle("GET", "/signin", s.willSigninHandler())
 
 	return router
 }
@@ -112,6 +113,12 @@ func (s *server) signupHandler() http.Handler {
 			Expires: expiresAt,
 		})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
+	})
+}
+
+func (s *server) willSigninHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		s.renderTemplate(w, r, "signin.tmpl", nil)
 	})
 }
 
