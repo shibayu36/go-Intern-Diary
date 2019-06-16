@@ -35,7 +35,9 @@ func TestDiaryApp_CreateNewToken(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEqual(t, "", token)
 
-	// TODO: ユーザをトークンで取得できるようになったらテスト追加
+	u, err := app.FindUserByToken(token)
+	assert.NoError(t, err)
+	assert.Equal(t, user.ID, u.ID)
 }
 
 func TestDiaryApp_LoginUser(t *testing.T) {

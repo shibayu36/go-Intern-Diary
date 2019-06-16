@@ -62,3 +62,7 @@ func generateToken() string {
 	}
 	return string(ret)
 }
+
+func (app *diaryApp) FindUserByToken(token string) (*model.User, error) {
+	return app.repo.FindUserByToken(token)
+}
