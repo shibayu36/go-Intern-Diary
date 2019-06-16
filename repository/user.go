@@ -50,3 +50,19 @@ func (r *repository) CreateNewToken(userID uint64, token string, expiresAt time.
 	)
 	return err
 }
+
+func (r *repository) FindPasswordHashByName(name string) (string, error) {
+	var hash string
+	err := r.db.Get(
+		&hash,
+		`SELECT password_hash FROM user
+			WHERE name = ? LIMIT 1`, name,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return "", nil
+		}
+		return "", err
+	}
+	return hash, nil
+}

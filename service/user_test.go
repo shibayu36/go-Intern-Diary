@@ -37,3 +37,21 @@ func TestDiaryApp_CreateNewToken(t *testing.T) {
 
 	// TODO: ユーザをトークンで取得できるようになったらテスト追加
 }
+
+func TestDiaryApp_LoginUser(t *testing.T) {
+	app := newApp()
+	defer closeApp(app)
+
+	name := "test name " + randomString()
+	password := randomString() + randomString()
+	err := app.CreateNewUser(name, password)
+	assert.NoError(t, err)
+
+	login, err := app.LoginUser(name, password)
+	assert.NoError(t, err)
+	assert.True(t, login)
+
+	login, err = app.LoginUser(name, password+".")
+	assert.NoError(t, err)
+	assert.False(t, login)
+}

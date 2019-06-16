@@ -26,6 +26,21 @@ func (app *diaryApp) FindUserByName(name string) (*model.User, error) {
 	return app.repo.FindUserByName(name)
 }
 
+// ユーザーのログイン処理
+func (app *diaryApp) LoginUser(name string, password string) (bool, error) {
+	passwordHash, err := app.repo.FindPasswordHashByName(name)
+	if err != nil {
+		return false, err
+	}
+	if err := bcrypt.CompareHashAndPassword([]byte(passwordHash), []byte(password)); err != nil {
+		if err == bcrypt.ErrMismatchedHashAndPassword {
+			return false, nil
+		}
+		return false, err
+	}
+	return true, nil
+}
+
 // ログイン用トークンの発行
 func (app *diaryApp) CreateNewToken(userID uint64, expiresAt time.Time) (string, error) {
 	token := generateToken()

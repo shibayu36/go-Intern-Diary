@@ -52,7 +52,7 @@ func TestServer_Index(t *testing.T) {
 }
 
 func TestServer_Signup(t *testing.T) {
-	_, ts := newAppServer()
+	app, ts := newAppServer()
 	defer ts.Close()
 
 	resp, respBody := client.Get(ts.URL + "/signup").Do()
@@ -73,5 +73,32 @@ func TestServer_Signup(t *testing.T) {
 	assert.Equal(t, "DIARY_SESSION", cookie.Name)
 	assert.Regexp(t, "^[a-zA-Z0-9_@]{128}$", cookie.Value)
 
-	// TODO: 正しいname, passwordのユーザーが作成されたかを、ログイン処理が出来たら確認
+	// 作ったユーザーでログインできる
+	loginSuccess, _ := app.LoginUser(name, password)
+	assert.Equal(t, true, loginSuccess)
+}
+
+func TestServer_Signin(t *testing.T) {
+	app, testServer := newAppServer()
+	defer testServer.Close()
+
+	resp, respBody := client.Get(testServer.URL + "/signin").Do()
+
+	assert.Equal(t, http.StatusOK, resp.StatusCode)
+	assert.Contains(t, respBody, `<h1>ログイン</h1>`)
+
+	name, password := "test name "+randomString(), randomString()
+	err := app.CreateNewUser(name, password)
+	assert.NoError(t, err)
+	resp, _ = client.Post(testServer.URL+"/signin", map[string]string{
+		"name":     name,
+		"password": password,
+	}).Do()
+	location := resp.Header.Get("Location")
+	cookie := resp.Cookies()[0]
+
+	assert.Equal(t, http.StatusSeeOther, resp.StatusCode)
+	assert.Equal(t, "/", location)
+	assert.Equal(t, "DIARY_SESSION", cookie.Name)
+	assert.Regexp(t, "^[a-zA-Z0-9_@]{128}$", cookie.Value)
 }

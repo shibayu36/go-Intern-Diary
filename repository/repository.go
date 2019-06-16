@@ -14,6 +14,7 @@ type Repository interface {
 	CreateNewUser(name string, passwordHash string) error
 	FindUserByName(name string) (*model.User, error)
 	CreateNewToken(userID uint64, token string, expiresAt time.Time) error
+	FindPasswordHashByName(name string) (string, error)
 
 	Close() error
 }
