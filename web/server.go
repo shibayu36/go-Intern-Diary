@@ -11,6 +11,7 @@ import (
 	"github.com/dimfeld/httptreemux"
 	"github.com/justinas/nosurf"
 
+	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/hatena/go-Intern-Diary/service"
 )
 
@@ -72,13 +73,25 @@ func (s *server) Handler() http.Handler {
 	handle("POST", "/signup", s.signupHandler())
 	handle("GET", "/signin", s.willSigninHandler())
 	handle("POST", "/signin", s.signinHandler())
+	handle("POST", "/signout", s.signoutHandler())
 
 	return router
 }
 
+func (s *server) findUser(r *http.Request) (user *model.User) {
+	cookie, err := r.Cookie(sessionKey)
+	if err == nil && cookie.Value != "" {
+		user, _ = s.app.FindUserByToken(cookie.Value)
+	}
+	return
+}
+
 func (s *server) indexHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		s.renderTemplate(w, r, "index.tmpl", nil)
+		user := s.findUser(r)
+		s.renderTemplate(w, r, "index.tmpl", map[string]interface{}{
+			"User": user,
+		})
 	})
 }
 
@@ -145,6 +158,17 @@ func (s *server) signinHandler() http.Handler {
 			Name:    sessionKey,
 			Value:   token,
 			Expires: expiresAt,
+		})
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	})
+}
+
+func (s *server) signoutHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		http.SetCookie(w, &http.Cookie{
+			Name:    sessionKey,
+			Value:   "",
+			Expires: time.Unix(0, 0),
 		})
 		http.Redirect(w, r, "/", http.StatusSeeOther)
 	})
