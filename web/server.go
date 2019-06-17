@@ -74,6 +74,9 @@ func (s *server) Handler() http.Handler {
 	handle("POST", "/signin", s.signinHandler())
 	handle("POST", "/signout", s.signoutHandler())
 
+	// ブログ作成・記事投稿(diary_handler.go)
+	handle("GET", "/diaries/create", s.willDiaryCreateHandler())
+
 	return router
 }
 
