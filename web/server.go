@@ -76,6 +76,7 @@ func (s *server) Handler() http.Handler {
 
 	// ブログ作成・記事投稿(diary_handler.go)
 	handle("GET", "/diaries/create", s.willDiaryCreateHandler())
+	handle("POST", "/diaries/create", s.diaryCreateHandler())
 
 	return router
 }
