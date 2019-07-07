@@ -22,6 +22,7 @@ type DiaryApp interface {
 	FindUserByToken(token string) (*model.User, error)
 
 	CreateNewDiary(userID uint64, name string) error
+	ListDiariesByUserID(userID uint64) ([]*model.Diary, error)
 }
 
 func NewApp(repo repository.Repository) DiaryApp {
