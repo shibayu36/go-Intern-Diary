@@ -12,6 +12,7 @@ import (
 	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/hatena/go-Intern-Diary/repository"
 	"github.com/hatena/go-Intern-Diary/service"
+	"github.com/hatena/go-Intern-Diary/testutil"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -43,8 +44,8 @@ func newAppServer() (service.DiaryApp, *httptest.Server) {
 }
 
 func createTestUser(app service.DiaryApp) *model.User {
-	name := "test name " + randomString()
-	password := randomString() + randomString()
+	name := "test name " + testutil.RandomString()
+	password := testutil.RandomString() + testutil.RandomString()
 	err := app.CreateNewUser(name, password)
 	if err != nil {
 		panic(err)

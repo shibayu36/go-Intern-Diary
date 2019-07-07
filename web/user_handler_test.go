@@ -5,6 +5,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/hatena/go-Intern-Diary/testutil"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,7 +18,7 @@ func TestServer_Signup(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Contains(t, respBody, `<h1>ユーザー登録</h1>`)
 
-	name, password := "test name "+randomString(), randomString()
+	name, password := "test name "+testutil.RandomString(), testutil.RandomString()
 	resp, _ = client.Post(ts.URL+"/signup", map[string]string{
 		"name":     name,
 		"password": password,
@@ -44,7 +45,7 @@ func TestServer_Signin(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resp.StatusCode)
 	assert.Contains(t, respBody, `<h1>ログイン</h1>`)
 
-	name, password := "test name "+randomString(), randomString()
+	name, password := "test name "+testutil.RandomString(), testutil.RandomString()
 	err := app.CreateNewUser(name, password)
 	assert.NoError(t, err)
 	resp, _ = client.Post(testServer.URL+"/signin", map[string]string{

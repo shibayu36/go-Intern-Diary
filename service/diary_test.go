@@ -3,6 +3,7 @@ package service
 import (
 	"testing"
 
+	"github.com/hatena/go-Intern-Diary/testutil"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,7 +13,7 @@ func TestDiaryApp_CreateNewDiary(t *testing.T) {
 
 	user := createTestUser(app)
 
-	name := "test diary name " + randomString()
+	name := "test diary name " + testutil.RandomString()
 	err := app.CreateNewDiary(user.ID, name)
 
 	assert.NoError(t, err)

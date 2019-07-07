@@ -2,7 +2,7 @@ package web
 
 import "net/http"
 
-// 登録ページ
+// ダイアリー作成ページ
 func (s *server) willDiaryCreateHandler() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := s.findUser(r)
