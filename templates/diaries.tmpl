@@ -1,0 +1,17 @@
+{{define "title"}}ダイアリー一覧{{end}}
+
+{{define "body"}}
+<h1>{{.User.Name}}のダイアリー一覧</h1>
+
+{{range .Diaries}}
+<div>
+  <p>{{.Name}}</p>
+</div>
+{{end}}
+
+<div>
+  <a href="/diaries/create">新しいダイアリーを作成</a>
+</div>
+
+
+{{end}}

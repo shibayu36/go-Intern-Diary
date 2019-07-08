@@ -1,0 +1,12 @@
+{{define "title"}}ダイアリー作成{{end}}
+
+{{define "body"}}
+<h1>ダイアリー作成</h1>
+
+<form action="/diaries/create" method="POST">
+  <input type="hidden" name="csrf_token" value="{{$.CSRFToken}}">
+  <div>ダイアリー名: <input type="text" name="name" /></div>
+  <input type="submit" value="作成"/>
+</form>
+
+{{end}}
