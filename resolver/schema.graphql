@@ -15,11 +15,11 @@ type Query {
 type User {
     id: ID!
     name: String!
-    # diaries: [Diary!]!
+    diaries: [Diary!]!
 }
 
-# type Diary {
-#     id: ID!
-#     user: User!
-#     name: String!
-# }
+type Diary {
+    id: ID!
+    # user: User!
+    name: String!
+}
