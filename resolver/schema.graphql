@@ -20,6 +20,6 @@ type User {
 
 type Diary {
     id: ID!
-    # user: User!
+    user: User!
     name: String!
 }

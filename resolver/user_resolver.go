@@ -29,7 +29,7 @@ func (u *userResolver) Diaries(ctx context.Context) ([]*diaryResolver, error) {
 	}
 	drs := make([]*diaryResolver, len(diaries))
 	for i, diary := range diaries {
-		drs[i] = &diaryResolver{diary}
+		drs[i] = &diaryResolver{diary, u.app}
 	}
 	return drs, nil
 }

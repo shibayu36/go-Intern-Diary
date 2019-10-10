@@ -21,6 +21,11 @@ func (app *diaryApp) CreateNewUser(name string, password string) (err error) {
 	return app.repo.CreateNewUser(name, string(passwordHash))
 }
 
+// ユーザーIDからユーザーを取得
+func (app *diaryApp) FindUserByID(id uint64) (*model.User, error) {
+	return app.repo.FindUserByID(id)
+}
+
 // ユーザー名からユーザーを取得
 func (app *diaryApp) FindUserByName(name string) (*model.User, error) {
 	return app.repo.FindUserByName(name)
