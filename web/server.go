@@ -3,6 +3,7 @@ package web
 //go:generate go-assets-builder --package=web --output=./templates-gen.go --strip-prefix="/templates/" --variable=Templates ../templates
 
 import (
+	"context"
 	"html/template"
 	"io/ioutil"
 	"net/http"
@@ -11,6 +12,7 @@ import (
 	"github.com/justinas/nosurf"
 
 	"github.com/hatena/go-Intern-Diary/model"
+	"github.com/hatena/go-Intern-Diary/resolver"
 	"github.com/hatena/go-Intern-Diary/service"
 )
 
@@ -79,6 +81,13 @@ func (s *server) Handler() http.Handler {
 	handle("GET", "/diaries/create", s.willDiaryCreateHandler())
 	handle("POST", "/diaries/create", s.diaryCreateHandler())
 
+	// GraphQL
+	handle("GET", "/graphiql", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		templates["graphiql.tmpl"].ExecuteTemplate(w, "graphiql.tmpl", nil)
+	}))
+	router.UsingContext().Handler("POST", "/query",
+		s.resolveUserMiddleware(resolver.NewHandler(s.app)))
+
 	return router
 }
 
@@ -88,6 +97,14 @@ func (s *server) findUser(r *http.Request) (user *model.User) {
 		user, _ = s.app.FindUserByToken(cookie.Value)
 	}
 	return
+}
+
+// Middleware for fetch user from session key for GraphQL
+func (s *server) resolveUserMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := s.findUser(r)
+		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "user", user)))
+	})
 }
 
 func (s *server) indexHandler() http.Handler {

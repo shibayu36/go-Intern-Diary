@@ -8,6 +8,7 @@ import (
 )
 
 type Resolver interface {
+	Visitor(context.Context) (*userResolver, error)
 	// ...
 }
 
@@ -21,4 +22,8 @@ type resolver struct {
 
 func currentUser(ctx context.Context) *model.User {
 	return ctx.Value("user").(*model.User)
+}
+
+func (r *resolver) Visitor(ctx context.Context) (*userResolver, error) {
+	return &userResolver{currentUser(ctx)}, nil
 }

@@ -1,25 +1,25 @@
 schema {
     query: Query
-    mutation: Mutation
+    # mutation: Mutation
 }
 
 type Query {
     visitor(): User!
-    user(userId: ID!): User!
-    diary(diaryId: ID!): Diary!
+    # user(userId: ID!): User!
+    # diary(diaryId: ID!): Diary!
 }
 
-type Mutation {
-}
+# type Mutation {
+# }
 
 type User {
     id: ID!
     name: String!
-    diaries: [Diary!]!
+    # diaries: [Diary!]!
 }
 
-type Diary {
-    id: ID!
-    user: User!
-    name: String!
-}
+# type Diary {
+#     id: ID!
+#     user: User!
+#     name: String!
+# }
