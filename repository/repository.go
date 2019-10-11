@@ -21,6 +21,7 @@ type Repository interface {
 
 	CreateDiary(userID uint64, name string) error
 	ListDiariesByUserID(userID uint64) ([]*model.Diary, error)
+	ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model.Diary, error)
 
 	Close() error
 }

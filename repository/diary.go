@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/hatena/go-Intern-Diary/model"
+	"github.com/jmoiron/sqlx"
 )
 
 func (r *repository) ListDiariesByUserID(userID uint64) ([]*model.Diary, error) {
@@ -15,6 +16,33 @@ func (r *repository) ListDiariesByUserID(userID uint64) ([]*model.Diary, error) 
 			ORDER BY created_at DESC`,
 		userID,
 	)
+	return diaries, err
+}
+
+func (r *repository) ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model.Diary, error) {
+	if len(userIDs) == 0 {
+		return nil, nil
+	}
+	query, args, err := sqlx.In(
+		`SELECT id, user_id, name FROM diary
+			WHERE user_id IN (?)`, userIDs,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := r.db.Queryx(query, args...)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	diaries := make(map[uint64][]*model.Diary)
+	for rows.Next() {
+		var diary model.Diary
+		rows.Scan(&diary.ID, &diary.UserID, &diary.Name)
+		diaries[diary.UserID] = append(diaries[diary.UserID], &diary)
+	}
 	return diaries, err
 }
 

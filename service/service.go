@@ -25,6 +25,7 @@ type DiaryApp interface {
 
 	CreateNewDiary(userID uint64, name string) error
 	ListDiariesByUserID(userID uint64) ([]*model.Diary, error)
+	ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model.Diary, error)
 }
 
 func NewApp(repo repository.Repository) DiaryApp {

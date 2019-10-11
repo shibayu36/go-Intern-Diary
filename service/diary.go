@@ -9,3 +9,7 @@ func (app *diaryApp) CreateNewDiary(userID uint64, name string) error {
 func (app *diaryApp) ListDiariesByUserID(userID uint64) ([]*model.Diary, error) {
 	return app.repo.ListDiariesByUserID(userID)
 }
+
+func (app *diaryApp) ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model.Diary, error) {
+	return app.repo.ListDiariesByUserIDs(userIDs)
+}

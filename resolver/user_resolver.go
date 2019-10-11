@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	graphql "github.com/graph-gophers/graphql-go"
+	"github.com/hatena/go-Intern-Diary/loader"
 	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/hatena/go-Intern-Diary/service"
 )
@@ -23,7 +24,7 @@ func (u *userResolver) Name(ctx context.Context) string {
 }
 
 func (u *userResolver) Diaries(ctx context.Context) ([]*diaryResolver, error) {
-	diaries, err := u.app.ListDiariesByUserID(u.user.ID)
+	diaries, err := loader.LoadDiariesByUserID(ctx, u.user.ID)
 	if err != nil {
 		return nil, err
 	}
