@@ -11,6 +11,7 @@ import (
 	"github.com/dimfeld/httptreemux"
 	"github.com/justinas/nosurf"
 
+	"github.com/hatena/go-Intern-Diary/loader"
 	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/hatena/go-Intern-Diary/resolver"
 	"github.com/hatena/go-Intern-Diary/service"
@@ -86,7 +87,10 @@ func (s *server) Handler() http.Handler {
 		templates["graphiql.tmpl"].ExecuteTemplate(w, "graphiql.tmpl", nil)
 	}))
 	router.UsingContext().Handler("POST", "/query",
-		s.resolveUserMiddleware(resolver.NewHandler(s.app)))
+		s.attatchLoaderMiddleware(s.resolveUserMiddleware(
+			loggingMiddleware(headerMiddleware(resolver.NewHandler(s.app))),
+		)),
+	)
 
 	return router
 }
@@ -104,6 +108,14 @@ func (s *server) resolveUserMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		user := s.findUser(r)
 		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "user", user)))
+	})
+}
+
+// Middleware for attaching data loaders for GraphQL
+func (s *server) attatchLoaderMiddleware(next http.Handler) http.Handler {
+	loaders := loader.New(s.app)
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		next.ServeHTTP(w, r.WithContext(loaders.Attach(r.Context())))
 	})
 }
 

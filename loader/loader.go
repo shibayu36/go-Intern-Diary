@@ -16,7 +16,8 @@ type Loaders interface {
 func New(app service.DiaryApp) Loaders {
 	return &loaders{
 		batchFuncs: map[string]dataloader.BatchFunc{
-		// ...
+			userLoaderKey: newUserLoader(app),
+			// ...
 		},
 	}
 }

@@ -16,6 +16,7 @@ type Repository interface {
 	CreateNewToken(userID uint64, token string, expiresAt time.Time) error
 	FindPasswordHashByName(name string) (string, error)
 	FindUserByID(id uint64) (*model.User, error)
+	ListUsersByIDs(userIDs []uint64) ([]*model.User, error)
 	FindUserByToken(token string) (*model.User, error)
 
 	CreateDiary(userID uint64, name string) error
