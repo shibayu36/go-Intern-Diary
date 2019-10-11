@@ -4,7 +4,7 @@ schema {
 }
 
 type Query {
-    visitor(): User!
+    visitor(): User
     # user(userId: ID!): User!
     # diary(diaryId: ID!): Diary!
 }
