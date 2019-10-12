@@ -12,7 +12,7 @@ import (
 type Resolver interface {
 	Visitor(context.Context) (*userResolver, error)
 	User(context.Context, struct{ UserID string }) (*userResolver, error)
-	// ...
+	Diary(context.Context, struct{ DiaryID string }) (*diaryResolver, error)
 }
 
 func newResolver(app service.DiaryApp) Resolver {
@@ -49,4 +49,19 @@ func (r *resolver) User(ctx context.Context, args struct{ UserID string }) (*use
 		return nil, errors.New("user not found")
 	}
 	return &userResolver{user}, nil
+}
+
+func (r *resolver) Diary(ctx context.Context, args struct{ DiaryID string }) (*diaryResolver, error) {
+	diaryID, err := strconv.ParseUint(args.DiaryID, 10, 64)
+	if err != nil {
+		return nil, err
+	}
+	diary, err := r.app.FindDiaryByID(diaryID)
+	if err != nil {
+		return nil, err
+	}
+	if diary == nil {
+		return nil, errors.New("user not found")
+	}
+	return &diaryResolver{diary}, nil
 }

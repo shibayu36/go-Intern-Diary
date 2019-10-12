@@ -1,11 +1,28 @@
 package repository
 
 import (
+	"database/sql"
 	"time"
 
 	"github.com/hatena/go-Intern-Diary/model"
 	"github.com/jmoiron/sqlx"
 )
+
+func (r *repository) FindDiaryByID(id uint64) (*model.Diary, error) {
+	var diary model.Diary
+	err := r.db.Get(
+		&diary,
+		`SELECT id, user_id, name FROM diary
+			WHERE id = ? LIMIT 1`, id,
+	)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, userNotFoundError
+		}
+		return nil, err
+	}
+	return &diary, nil
+}
 
 func (r *repository) ListDiariesByUserID(userID uint64) ([]*model.Diary, error) {
 	diaries := []*model.Diary{}
