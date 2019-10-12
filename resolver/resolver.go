@@ -31,5 +31,5 @@ func currentUser(ctx context.Context) (*model.User, error) {
 
 func (r *resolver) Visitor(ctx context.Context) (*userResolver, error) {
 	user, err := currentUser(ctx)
-	return &userResolver{user, r.app}, err
+	return &userResolver{user}, err
 }

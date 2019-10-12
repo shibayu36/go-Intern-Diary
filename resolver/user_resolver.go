@@ -7,12 +7,10 @@ import (
 	graphql "github.com/graph-gophers/graphql-go"
 	"github.com/hatena/go-Intern-Diary/loader"
 	"github.com/hatena/go-Intern-Diary/model"
-	"github.com/hatena/go-Intern-Diary/service"
 )
 
 type userResolver struct {
 	user *model.User
-	app  service.DiaryApp
 }
 
 func (u *userResolver) ID(ctx context.Context) graphql.ID {
@@ -30,7 +28,7 @@ func (u *userResolver) Diaries(ctx context.Context) ([]*diaryResolver, error) {
 	}
 	drs := make([]*diaryResolver, len(diaries))
 	for i, diary := range diaries {
-		drs[i] = &diaryResolver{diary, u.app}
+		drs[i] = &diaryResolver{diary}
 	}
 	return drs, nil
 }
