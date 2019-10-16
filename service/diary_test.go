@@ -14,7 +14,7 @@ func TestDiaryApp_CreateNewDiary(t *testing.T) {
 	user := createTestUser(app)
 
 	name := "test diary name " + testutil.RandomString()
-	err := app.CreateNewDiary(user.ID, name)
+	_, err := app.CreateNewDiary(user.ID, name)
 
 	assert.NoError(t, err)
 }

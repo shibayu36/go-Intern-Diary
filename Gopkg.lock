@@ -99,12 +99,28 @@
   version = "v1.0.0"
 
 [[projects]]
+  digest = "1:f31e2804f0f0ed158f0c92620fececf4f639b91bbf703a3a1a0a33c0ee4ba625"
+  name = "github.com/shogo82148/go-sql-proxy"
+  packages = ["."]
+  pruneopts = ""
+  revision = "dabf17a5b004d1f6ddcb7811d60b6c17a91e07aa"
+  version = "v0.1.1"
+
+[[projects]]
   digest = "1:381bcbeb112a51493d9d998bbba207a529c73dbb49b3fd789e48c63fac1f192c"
   name = "github.com/stretchr/testify"
   packages = ["assert"]
   pruneopts = ""
   revision = "ffdc059bfe9ce6a4e144ba849dbedead332c6053"
   version = "v1.3.0"
+
+[[projects]]
+  branch = "master"
+  digest = "1:5af99eb2e4c62395f74d73d41116a9406c903301237080a72e74080d6220ce7f"
+  name = "github.com/walf443/go-sql-tracer"
+  packages = ["."]
+  pruneopts = ""
+  revision = "215903b302c85032da69d8aebbb616f0aeaea4c6"
 
 [[projects]]
   branch = "master"
@@ -146,6 +162,7 @@
     "github.com/jmoiron/sqlx",
     "github.com/justinas/nosurf",
     "github.com/stretchr/testify/assert",
+    "github.com/walf443/go-sql-tracer",
     "golang.org/x/crypto/bcrypt",
   ]
   solver-name = "gps-cdcl"
