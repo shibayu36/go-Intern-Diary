@@ -1,6 +1,6 @@
 schema {
     query: Query
-    # mutation: Mutation
+    mutation: Mutation
 }
 
 type Query {
@@ -9,8 +9,9 @@ type Query {
     diary(diaryId: ID!): Diary!
 }
 
-# type Mutation {
-# }
+type Mutation {
+    createDiary(name: String!): Diary!
+}
 
 type User {
     id: ID!

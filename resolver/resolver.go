@@ -13,6 +13,8 @@ type Resolver interface {
 	Visitor(context.Context) (*userResolver, error)
 	User(context.Context, struct{ UserID string }) (*userResolver, error)
 	Diary(context.Context, struct{ DiaryID string }) (*diaryResolver, error)
+
+	CreateDiary(context.Context, struct{ Name string }) (*diaryResolver, error)
 }
 
 func newResolver(app service.DiaryApp) Resolver {
@@ -63,5 +65,19 @@ func (r *resolver) Diary(ctx context.Context, args struct{ DiaryID string }) (*d
 	if diary == nil {
 		return nil, errors.New("user not found")
 	}
+	return &diaryResolver{diary}, nil
+}
+
+func (r *resolver) CreateDiary(ctx context.Context, args struct{ Name string }) (*diaryResolver, error) {
+	user, _ := currentUser(ctx)
+	if user == nil {
+		return nil, errors.New("user not found")
+	}
+
+	diary, err := r.app.CreateNewDiary(user.ID, args.Name)
+	if err != nil {
+		return nil, err
+	}
+
 	return &diaryResolver{diary}, nil
 }
