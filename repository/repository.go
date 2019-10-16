@@ -19,7 +19,7 @@ type Repository interface {
 	ListUsersByIDs(userIDs []uint64) ([]*model.User, error)
 	FindUserByToken(token string) (*model.User, error)
 
-	CreateDiary(userID uint64, name string) error
+	CreateDiary(userID uint64, name string) (*model.Diary, error)
 	FindDiaryByID(id uint64) (*model.Diary, error)
 	ListDiariesByUserID(userID uint64) ([]*model.Diary, error)
 	ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model.Diary, error)

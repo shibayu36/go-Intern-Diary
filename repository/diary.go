@@ -63,10 +63,10 @@ func (r *repository) ListDiariesByUserIDs(userIDs []uint64) (map[uint64][]*model
 	return diaries, err
 }
 
-func (r *repository) CreateDiary(userID uint64, name string) error {
+func (r *repository) CreateDiary(userID uint64, name string) (*model.Diary, error) {
 	id, err := r.generateID()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	now := time.Now()
@@ -76,5 +76,9 @@ func (r *repository) CreateDiary(userID uint64, name string) error {
       VALUES (?, ?, ?, ?, ?)`,
 		id, userID, name, now, now,
 	)
-	return err
+	if err != nil {
+		return nil, err
+	}
+
+	return r.FindDiaryByID(id)
 }

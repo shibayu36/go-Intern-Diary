@@ -50,7 +50,8 @@ func (s *server) diaryCreateHandler() http.Handler {
 		}
 
 		name := r.FormValue("name")
-		if err := s.app.CreateNewDiary(user.ID, name); err != nil {
+		_, err := s.app.CreateNewDiary(user.ID, name)
+		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}

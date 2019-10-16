@@ -2,7 +2,7 @@ package service
 
 import "github.com/hatena/go-Intern-Diary/model"
 
-func (app *diaryApp) CreateNewDiary(userID uint64, name string) error {
+func (app *diaryApp) CreateNewDiary(userID uint64, name string) (*model.Diary, error) {
 	return app.repo.CreateDiary(userID, name)
 }
 
