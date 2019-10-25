@@ -6,7 +6,7 @@
     "watch": "webpack --config ui/webpack.config.js --watch",
     "build": "webpack --config ui/webpack.config.js --mode production",
     "test": "jest",
-    "apollo-codegen": "apollo schema:download --endpoint=http://host.docker.internal:8000/query schema.json && apollo codegen:generate --schema=schema.json --queries=ui/src/**/*.tsx --target=typescript"
+    "apollo-codegen": "apollo client:codegen --useReadOnlyTypes --target=typescript"
   },
   "dependencies": {
     "@apollo/react-hooks": "^3.1.3",
