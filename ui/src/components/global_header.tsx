@@ -17,13 +17,13 @@ export const GlobalHeader = () => {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;
-  console.log(error)
 
   return <header className="GlobalHeader">
     ようこそ、{data.visitor.name}さん
     <nav>
       <ul>
         <li><NavLink to="/">トップ</NavLink></li>
+        <li><NavLink to="/diaries">マイダイアリー</NavLink></li>
       </ul>
     </nav>
   </header>
