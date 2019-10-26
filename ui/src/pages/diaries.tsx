@@ -2,6 +2,7 @@ import React from "react";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
 import { GetMyDiaries } from "./__generated__/GetMyDiaries"
+import { Link } from "react-router-dom";
 
 const MyDiariesQuery = gql`
   query GetMyDiaries {
@@ -27,7 +28,11 @@ export const Diaries: React.StatelessComponent = () => {
   return <div className="Diaries">
     <h1>{data!.visitor.name}のダイアリー一覧</h1>
     {diaries.map((diary: any) => (
-      <div><p>{diary.name}</p></div>
+      <Link to={`/diaries/${diary.id}`}>
+        <div>
+          <p>{diary.name}</p>
+        </div>
+      </Link>
     ))}
   </div>;
 }

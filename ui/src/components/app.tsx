@@ -8,10 +8,12 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
+import { GlobalHeader } from "./global_header";
+
 import { Index } from "../pages/index";
 import { NoMatch } from "../pages/no_match";
-import { GlobalHeader } from "./global_header";
 import { Diaries } from "../pages/diaries";
+import { Diary } from "../pages/diary";
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -41,6 +43,7 @@ export const App: React.StatelessComponent = () => (
           <Switch>
             <Route path="/" exact strict component={Index} />
             <Route path="/diaries" exact strict component={Diaries} />
+            <Route path="/diaries/:diaryId" exact strict component={Diary} />
             <Route path="*" component={NoMatch} />
           </Switch>
         </main>
