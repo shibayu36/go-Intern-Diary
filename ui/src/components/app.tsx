@@ -8,10 +8,10 @@ import { HttpLink } from "apollo-link-http";
 import { onError } from "apollo-link-error";
 import { InMemoryCache } from "apollo-cache-inmemory";
 
-import { Index } from "./index";
-import { NoMatch } from "./no_match";
+import { Index } from "../pages/index";
+import { NoMatch } from "../pages/no_match";
 import { GlobalHeader } from "./global_header";
-import { Diaries } from "./diaries";
+import { Diaries } from "../pages/diaries";
 
 const client = new ApolloClient({
   link: ApolloLink.from([
