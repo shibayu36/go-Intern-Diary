@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import gql from "graphql-tag";
 import { useQuery } from '@apollo/react-hooks'
 
-const visitorQuery = gql`
+const getVisitorQuery = gql`
   query GetVisitor {
     visitor {
       id
@@ -13,7 +13,7 @@ const visitorQuery = gql`
 `;
 
 export const GlobalHeader = () => {
-  const { loading, error, data } = useQuery(visitorQuery);
+  const { loading, error, data } = useQuery(getVisitorQuery);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error</p>;

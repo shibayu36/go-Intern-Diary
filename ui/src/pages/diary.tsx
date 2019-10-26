@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GetDiary, GetDiaryVariables } from "./__generated__/GetDiary";
 import { RouteComponentProps, useParams } from "react-router";
 
-const GetDiaryQuery = gql`
+const getDiaryQuery = gql`
   query GetDiary($diaryId: ID!) {
     diary(diaryId: $diaryId) {
       id
@@ -20,7 +20,7 @@ interface RouteProps {
 export const Diary: React.FunctionComponent = () => {
   const { diaryId } = useParams<RouteProps>();
   const { loading, error, data } = useQuery<GetDiary, GetDiaryVariables>(
-    GetDiaryQuery,
+    getDiaryQuery,
     {
       variables: { diaryId: diaryId }
     }

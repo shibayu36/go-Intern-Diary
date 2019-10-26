@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { GetMyDiaries } from "./__generated__/GetMyDiaries"
 import { Link } from "react-router-dom";
 
-const MyDiariesQuery = gql`
+const getMyDiariesQuery = gql`
   query GetMyDiaries {
     visitor {
       id
@@ -18,7 +18,7 @@ const MyDiariesQuery = gql`
 `
 
 export const Diaries: React.StatelessComponent = () => {
-  const { loading, error, data } = useQuery<GetMyDiaries>(MyDiariesQuery);
+  const { loading, error, data } = useQuery<GetMyDiaries>(getMyDiariesQuery);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error.message}</p>;
