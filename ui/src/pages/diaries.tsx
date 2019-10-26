@@ -17,7 +17,7 @@ const getMyDiariesQuery = gql`
   }
 `
 
-export const Diaries: React.StatelessComponent = () => {
+export const Diaries: React.FunctionComponent = () => {
   const { loading, error, data } = useQuery<GetMyDiaries>(getMyDiariesQuery);
 
   if (loading) return <p>Loading...</p>;

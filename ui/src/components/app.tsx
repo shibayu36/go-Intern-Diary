@@ -34,7 +34,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const App: React.StatelessComponent = () => (
+export const App: React.FunctionComponent = () => (
   <ApolloProvider client={client}>
     <BrowserRouter basename="/spa">
       <>
