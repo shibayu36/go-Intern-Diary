@@ -34,5 +34,9 @@ export const Diaries: React.FunctionComponent = () => {
         </div>
       </Link>
     ))}
+
+    <div>
+      <Link to="/diaries/create">新しいダイアリーを作成</Link>
+    </div>
   </div>;
 }

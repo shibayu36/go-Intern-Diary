@@ -14,6 +14,7 @@ import { Index } from "../pages/index";
 import { NoMatch } from "../pages/no_match";
 import { Diaries } from "../pages/diaries";
 import { Diary } from "../pages/diary";
+import { DiariesCreate } from "../pages/diaries/create";
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -43,7 +44,8 @@ export const App: React.FunctionComponent = () => (
           <Switch>
             <Route path="/" exact strict component={Index} />
             <Route path="/diaries" exact strict component={Diaries} />
-            <Route path="/diaries/:diaryId" exact strict component={Diary} />
+            <Route path="/diaries/:diaryId(\d+)" exact strict component={Diary} />
+            <Route path="/diaries/create" exact strict component={DiariesCreate} />
             <Route path="*" component={NoMatch} />
           </Switch>
         </main>
