@@ -92,6 +92,13 @@ func (s *server) Handler() http.Handler {
 		)),
 	)
 
+	// SPA
+	handle("GET", "/spa/", s.spaHandler())
+	handle("GET", "/spa/*", s.spaHandler())
+
+	// static
+	handle("GET", "/static/*", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
 	return router
 }
 
@@ -145,4 +152,10 @@ func (s *server) renderTemplate(w http.ResponseWriter, r *http.Request, tmpl str
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func (s *server) spaHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		templates["spa.tmpl"].ExecuteTemplate(w, "spa.tmpl", nil)
+	})
 }

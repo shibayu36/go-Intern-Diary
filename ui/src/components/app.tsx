@@ -1,12 +1,20 @@
 import React from "react";
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 
-import {ApolloProvider} from "react-apollo";
+import { ApolloProvider } from "react-apollo";
 import ApolloClient from "apollo-client";
-import {ApolloLink} from "apollo-link";
-import {HttpLink} from "apollo-link-http";
-import {onError} from "apollo-link-error";
-import {InMemoryCache} from "apollo-cache-inmemory";
+import { ApolloLink } from "apollo-link";
+import { HttpLink } from "apollo-link-http";
+import { onError } from "apollo-link-error";
+import { InMemoryCache } from "apollo-cache-inmemory";
+
+import { GlobalHeader } from "./global_header";
+
+import { Index } from "../pages/index";
+import { NoMatch } from "../pages/no_match";
+import { Diaries } from "../pages/diaries";
+import { Diary } from "../pages/diary";
+import { DiariesCreate } from "../pages/diaries/create";
 
 const client = new ApolloClient({
   link: ApolloLink.from([
@@ -27,13 +35,20 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-export const App: React.StatelessComponent = () => (
+export const App: React.FunctionComponent = () => (
   <ApolloProvider client={client}>
     <BrowserRouter basename="/spa">
       <>
-
-        // ...
-
+        <GlobalHeader />
+        <main>
+          <Switch>
+            <Route path="/" exact strict component={Index} />
+            <Route path="/diaries" exact strict component={Diaries} />
+            <Route path="/diaries/:diaryId(\d+)" exact strict component={Diary} />
+            <Route path="/diaries/create" exact strict component={DiariesCreate} />
+            <Route path="*" component={NoMatch} />
+          </Switch>
+        </main>
       </>
     </BrowserRouter>
   </ApolloProvider>

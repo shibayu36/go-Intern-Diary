@@ -35,7 +35,10 @@ func currentUser(ctx context.Context) (*model.User, error) {
 
 func (r *resolver) Visitor(ctx context.Context) (*userResolver, error) {
 	user, err := currentUser(ctx)
-	return &userResolver{user}, err
+	if err != nil {
+		return nil, err
+	}
+	return &userResolver{user}, nil
 }
 
 func (r *resolver) User(ctx context.Context, args struct{ UserID string }) (*userResolver, error) {
