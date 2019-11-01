@@ -5,5 +5,10 @@ module.exports = {
   roots: ["<rootDir>/ui/src"],
   transform: {
     "^.+\\.tsx?$": "ts-jest"
+  },
+  globals: {
+    "ts-jest": {
+      tsConfig: "ui/tsconfig.json"
+    }
   }
 };
