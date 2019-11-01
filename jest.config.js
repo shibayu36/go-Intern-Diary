@@ -6,6 +6,7 @@ module.exports = {
   transform: {
     "^.+\\.tsx?$": "ts-jest"
   },
+  setupFilesAfterEnv: ["<rootDir>/ui/src/setupTests.ts"],
   globals: {
     "ts-jest": {
       tsConfig: "ui/tsconfig.json"
