@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { GetMyDiaries } from './__generated__/GetMyDiaries';
 import { Link } from 'react-router-dom';
 
-const getMyDiariesQuery = gql`
+export const getMyDiariesQuery = gql`
   query GetMyDiaries {
     visitor {
       id
