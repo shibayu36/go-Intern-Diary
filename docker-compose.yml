@@ -21,7 +21,7 @@ services:
       - ./db/docker:/docker-entrypoint-initdb.d
       - .:/app
     ports:
-      - "3306:3306"
+      - "23306:3306"
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD=1
   node:
